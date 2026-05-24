@@ -1,16 +1,28 @@
 ---
-version: "3"
+version: "3.9"
 services:
  devopsdb:
-   container_name: devopsdb
-   image: dbimage
+   image: msdinesh98/automation:db
    ports:
      - "3306:3306"
+   restart: unless-stopped
+   deploy:
+     replicas: 2
+   networks:
+     - mynetwork
 
  application:
-   container_name: appcontainer
-   image: appimage
+   image: msdinesh98/automation:app
    ports:
-     - "1234:8080"
+     - "1212:8080"
+   restart: unless-stopped
+   deploy:
+     replicas: 2
+   networks:
+     - mynetwork
    depends_on:
      - "devopsdb"
+networks:
+  - mynetwork:
+      driver: overlay
+...
